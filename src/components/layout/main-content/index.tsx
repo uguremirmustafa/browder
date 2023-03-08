@@ -6,6 +6,7 @@ function MainContent() {
     <div>
       <div>
         <pre>{JSON.stringify(location, null, 2)}</pre>
+		hello world
       </div>
     </div>
   );

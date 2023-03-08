@@ -1,8 +1,10 @@
 import { ChevronRightIcon, ClosedFolderIcon, FileIcon, OpenFolderIcon } from 'assets/icons';
 import classNames from 'classnames';
+import { useRightClick } from 'context/right-click-context';
 import React, { ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { TreeNode } from 'types';
+import TreeItemMenu from '../context-menu/context-menus/TreeItemMenu';
 import { TreeContext, useTree } from './context';
 
 export interface DrilledProps {
@@ -66,17 +68,35 @@ const TreeItem = (props: CustomTreeItemProps) => {
 
   const isSelected = pathname === path;
 
+  const { setCtxMenu } = useRightClick();
+
+  function handleRightClick(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+    e.preventDefault();
+    const { pageX, pageY } = e;
+    setCtxMenu({
+      x: pageX,
+      y: pageY,
+      isOpen: true,
+      children: <TreeItemMenu item={node} />,
+    });
+  }
+
   return (
     <li className={classNames('transition-all')}>
       <div
-        className={classNames('gap-1 rounded flex items-center h-6', isSelected && 'bg-orange-500')}
+        className={classNames(
+          'gap-1 rounded flex items-center h-6 group',
+          isSelected && 'bg-orange-500',
+          !isSelected && 'hover:text-blue-100 transition-colors'
+        )}
+        onContextMenu={handleRightClick}
       >
         {children && (
           <button onClick={toggle} tabIndex={-1} className="pl-1">
             <ChevronRightIcon
               size={18}
               className={classNames(
-                '!fill-gray-500 hover:!fill-gray-100 transition duration-200',
+                '!fill-gray-400 hover:!fill-gray-100 transition duration-200',
                 isExpanded && 'rotate-90'
               )}
             />
@@ -89,8 +109,25 @@ const TreeItem = (props: CustomTreeItemProps) => {
             !children && 'ml-1.5'
           )}
         >
-          {children && (isExpanded ? <OpenFolderIcon size={15} /> : <ClosedFolderIcon size={15} />)}
-          {!children && <FileIcon size={15} />} {name}
+          {children &&
+            (isExpanded ? (
+              <OpenFolderIcon
+                size={15}
+                className={classNames(!isSelected && 'group-hover:fill-blue-100 transition-colors')}
+              />
+            ) : (
+              <ClosedFolderIcon
+                size={15}
+                className={classNames(!isSelected && 'group-hover:fill-blue-100 transition-colors')}
+              />
+            ))}
+          {!children && (
+            <FileIcon
+              size={15}
+              className={classNames(!isSelected && 'group-hover:fill-blue-100 transition-colors')}
+            />
+          )}{' '}
+          {name}
         </Link>
       </div>
       {isExpanded && (

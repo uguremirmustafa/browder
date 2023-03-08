@@ -25,6 +25,7 @@ export function createSidebarMenuTree(
         path,
         children: children,
         parentPath,
+        pathPart: node.path,
       };
     });
 }
@@ -37,13 +38,15 @@ export function buildMenuItems(
   const result: NestedMenuItem[] = [];
 
   for (const item of items.filter((i) => i.parentId === parentId)) {
+    const path = `${parentPath}/${item.path}`.replace(/\/+/g, '/');
     const menuItem: NestedMenuItem = {
       ...item,
-      path: parentPath + item.path,
+      path,
       parentPath,
+      pathPart: item.path,
     };
     result.push(menuItem);
-    result.push(...buildMenuItems(items, item.id, menuItem.path + '/'));
+    result.push(...buildMenuItems(items, item.id, menuItem.path));
   }
 
   return result;

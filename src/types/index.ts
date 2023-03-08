@@ -7,12 +7,14 @@ export interface IMenuItem {
 
 export interface NestedMenuItem extends IMenuItem {
   parentPath: string;
+  pathPart: string;
 }
 
 export interface TreeNode {
   id: IMenuItem['id'];
   name: IMenuItem['name'];
   path: IMenuItem['name'];
+  pathPart: IMenuItem['path'];
   parentPath: NestedMenuItem['parentPath'];
   children: TreeNode[];
 }
