@@ -1,3 +1,5 @@
+import FolderPropertiesModal from 'components/molecules/modal/modals/folder-properties-modal';
+import { useModal } from 'context/modal-context';
 import { useRightClick } from 'context/right-click-context';
 import React, { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -10,6 +12,7 @@ interface IProps {
 function TreeItemMenu(props: IProps) {
   const { item } = props;
   const { close } = useRightClick();
+  const { setModal } = useModal();
   const isFolder = item.children.length;
   const navigate = useNavigate();
 
@@ -19,7 +22,11 @@ function TreeItemMenu(props: IProps) {
   }
 
   function showProperties() {
-    navigate(item.path);
+    setModal({
+      id: 'FOLDER_PROPERTIES',
+      title: `${item.name}`,
+      content: <FolderPropertiesModal item={item} />,
+    });
     close();
   }
 

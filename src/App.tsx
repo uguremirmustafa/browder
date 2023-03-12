@@ -1,6 +1,7 @@
 import MainContent from 'components/layout/main-content';
 import Breadcrumb from 'components/molecules/breadcrumb';
 import ContextMenu from 'components/molecules/context-menu';
+import AppModal from 'components/molecules/modal';
 import { RouteObject, useRoutes } from 'react-router-dom';
 import { buildMenuItems, createSidebarMenuTree } from 'utils/helper-functions/makeTree';
 import AppContainer from './components/layout/app-container';
@@ -10,7 +11,6 @@ import menu from './menu.json';
 function App() {
   const tree = createSidebarMenuTree(menu);
   const menuItems = buildMenuItems(menu);
-
   const routes: RouteObject[] = menuItems.map((x) => {
     return {
       path: x.path,
@@ -22,6 +22,7 @@ function App() {
   return (
     <>
       <ContextMenu />
+      <AppModal />
       <AppContainer>
         <div className="border-b border-b-slate-700">
           <Breadcrumb menuItems={menuItems} />

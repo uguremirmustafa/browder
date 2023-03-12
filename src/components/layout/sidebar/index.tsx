@@ -1,7 +1,6 @@
 import Tree from 'components/molecules/tree-view';
 import { useState } from 'react';
-import { IMenuItem, TreeNode } from 'types';
-import { createSidebarMenuTree } from 'utils/helper-functions/makeTree';
+import { TreeNode } from 'types';
 
 interface IProps {
   tree: TreeNode[];

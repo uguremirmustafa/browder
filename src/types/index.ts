@@ -1,3 +1,5 @@
+import { ExoticComponent, LazyExoticComponent, ReactNode } from 'react';
+
 export interface IMenuItem {
   id: number;
   name: string;
@@ -17,4 +19,13 @@ export interface TreeNode {
   pathPart: IMenuItem['path'];
   parentPath: NestedMenuItem['parentPath'];
   children: TreeNode[];
+}
+
+export const MODAL_IDS = ['FOLDER_PROPERTIES'] as const;
+export type ModalId = typeof MODAL_IDS[number];
+
+export interface ModalProps {
+  id: ModalId;
+  title: string;
+  content: ReactNode;
 }
