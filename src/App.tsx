@@ -2,13 +2,14 @@ import MainContent from 'components/layout/main-content';
 import Breadcrumb from 'components/molecules/breadcrumb';
 import ContextMenu from 'components/molecules/context-menu';
 import AppModal from 'components/molecules/modal';
+import useMenuItems from 'hooks/api/useMenuItems';
 import { RouteObject, useRoutes } from 'react-router-dom';
 import { buildMenuItems, createSidebarMenuTree } from 'utils/helper-functions/makeTree';
 import AppContainer from './components/layout/app-container';
 import Sidebar from './components/layout/sidebar';
-import menu from './menu.json';
 
 function App() {
+  const menu = useMenuItems();
   const tree = createSidebarMenuTree(menu);
   const menuItems = buildMenuItems(menu);
   const routes: RouteObject[] = menuItems.map((x) => {

@@ -33,13 +33,19 @@ function TreeItemMenu(props: IProps) {
   if (isFolder) {
     return (
       <ul className="px-2 py-2">
-        <li className="px-2 py-1 transition-colors hover:bg-blue-700 rounded">
-          <a className="cursor-default" onClick={openFolder}>
+        <li>
+          <a
+            className="cursor-default inline-block w-full px-2 py-1 transition-colors hover:bg-blue-700 rounded"
+            onClick={openFolder}
+          >
             Open folder
           </a>
         </li>
-        <li className="px-2 py-1 transition-colors hover:bg-blue-700 rounded">
-          <a className="cursor-default" onClick={showProperties}>
+        <li>
+          <a
+            className="cursor-default inline-block w-full px-2 py-1 transition-colors hover:bg-blue-700 rounded"
+            onClick={showProperties}
+          >
             Properties
           </a>
         </li>

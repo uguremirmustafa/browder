@@ -7,6 +7,7 @@ interface IProps {
 
 function FolderPropertiesModal(props: IProps) {
   const { item } = props;
+
   return (
     <div>
       <pre>{JSON.stringify(item, null, 2)}</pre>
