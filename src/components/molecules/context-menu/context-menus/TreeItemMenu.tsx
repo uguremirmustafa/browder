@@ -1,7 +1,7 @@
 import FolderPropertiesModal from 'components/molecules/modal/modals/folder-properties-modal';
+import RenameModal from 'components/molecules/modal/modals/rename-modal';
 import { useModal } from 'context/modal-context';
 import { useRightClick } from 'context/right-click-context';
-import React, { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TreeNode } from 'types';
 
@@ -17,7 +17,7 @@ function TreeItemMenu(props: IProps) {
   const navigate = useNavigate();
 
   function openFolder() {
-    navigate(item.path);
+    navigate(item.path, { state: item });
     close();
   }
 
@@ -29,10 +29,18 @@ function TreeItemMenu(props: IProps) {
     });
     close();
   }
+  function renameFolder() {
+    setModal({
+      id: 'RENAME',
+      title: 'Rename',
+      content: <RenameModal item={item} />,
+    });
+    close();
+  }
 
-  if (isFolder) {
-    return (
-      <ul className="px-2 py-2">
+  return (
+    <ul className="px-2 py-2">
+      {isFolder ? (
         <li>
           <a
             className="cursor-default inline-block w-full px-2 py-1 transition-colors hover:bg-blue-700 rounded"
@@ -41,22 +49,24 @@ function TreeItemMenu(props: IProps) {
             Open folder
           </a>
         </li>
-        <li>
-          <a
-            className="cursor-default inline-block w-full px-2 py-1 transition-colors hover:bg-blue-700 rounded"
-            onClick={showProperties}
-          >
-            Properties
-          </a>
-        </li>
-      </ul>
-    );
-  }
-
-  return (
-    <div>
-      <div>{item.name}</div>
-    </div>
+      ) : null}
+      <li>
+        <a
+          className="cursor-default inline-block w-full px-2 py-1 transition-colors hover:bg-blue-700 rounded"
+          onClick={renameFolder}
+        >
+          Rename...
+        </a>
+      </li>
+      <li>
+        <a
+          className="cursor-default inline-block w-full px-2 py-1 transition-colors hover:bg-blue-700 rounded"
+          onClick={showProperties}
+        >
+          Properties
+        </a>
+      </li>
+    </ul>
   );
 }
 

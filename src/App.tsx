@@ -11,6 +11,7 @@ import Sidebar from './components/layout/sidebar';
 function App() {
   const menu = useMenuItems();
   const tree = createSidebarMenuTree(menu);
+
   const menuItems = buildMenuItems(menu);
   const routes: RouteObject[] = menuItems.map((x) => {
     return {

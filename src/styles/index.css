@@ -6,6 +6,9 @@
   html {
     @apply bg-gray-900;
   }
+  body {
+    @apply px-8;
+  }
   *,
   *::after,
   *::before {
@@ -18,7 +21,10 @@
 
 @layer components {
   .btn {
-    @apply bg-orange-500 hover:bg-orange-600 transition-colors shadow-sm cursor-pointer rounded h-8 px-4 flex items-center justify-center;
+    @apply bg-orange-500 hover:bg-orange-600 transition-colors shadow-sm cursor-pointer rounded h-8 px-4 flex items-center justify-center disabled:bg-gray-400;
+  }
+  .text-field {
+    @apply bg-gray-900 focus:bg-gray-800 w-full px-3 py-2 rounded;
   }
 }
 ::-webkit-scrollbar {

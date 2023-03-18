@@ -1,13 +1,5 @@
 import { IMenuItem, NestedMenuItem, TreeNode } from 'types';
-
-// export const makeTree = (items: IMenuItem[], id: IMenuItem['id']): TreeNode[] => {
-//   return items
-//     .filter((item) => item.parentId === id)
-//     .map((item) => ({
-//       ...item,
-//       children: makeTree(items, item.id),
-//     }));
-// };
+import { getPathFromName } from './getPathFromName';
 
 export function createSidebarMenuTree(
   nodes: any[],
@@ -17,15 +9,16 @@ export function createSidebarMenuTree(
   return nodes
     .filter((node) => node.parentId === parentId)
     .map((node) => {
-      const path = `${parentPath}/${node.path}`.replace(/\/+/g, '/');
+      const pathPart = getPathFromName(node.name);
+      const path = `${parentPath}/${pathPart}`.replace(/\/+/g, '/');
       const children = createSidebarMenuTree(nodes, node.id, path);
       return {
         id: node.id,
         name: node.name,
         path,
-        children: children,
         parentPath,
-        pathPart: node.path,
+        pathPart,
+        children: children,
       };
     });
 }
@@ -38,12 +31,13 @@ export function buildMenuItems(
   const result: NestedMenuItem[] = [];
 
   for (const item of items.filter((i) => i.parentId === parentId)) {
-    const path = `${parentPath}/${item.path}`.replace(/\/+/g, '/');
+    const pathPart = getPathFromName(item.name);
+    const path = `${parentPath}/${pathPart}`.replace(/\/+/g, '/');
     const menuItem: NestedMenuItem = {
       ...item,
       path,
       parentPath,
-      pathPart: item.path,
+      pathPart,
     };
     result.push(menuItem);
     result.push(...buildMenuItems(items, item.id, menuItem.path));

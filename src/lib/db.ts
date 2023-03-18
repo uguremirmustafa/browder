@@ -1,5 +1,6 @@
 import { Dexie } from 'dexie';
 import { IMenuItem } from 'types';
+import { getPathFromName } from 'utils/helper-functions/getPathFromName';
 import menu from '../menu.json';
 
 class MyAppDatabase extends Dexie {
@@ -9,8 +10,8 @@ class MyAppDatabase extends Dexie {
 
   constructor() {
     super('MyAppDatabase');
-    this.version(1).stores({
-      menuItem: '++id,name,path,parentId',
+    this.version(2).stores({
+      menuItem: '++id,name,parentId,&[parentId+name]',
 
       //...other tables goes here...
     });

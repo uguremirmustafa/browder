@@ -104,6 +104,7 @@ const TreeItem = (props: CustomTreeItemProps) => {
         )}
         <Link
           to={children ? path : parentPath}
+          state={node}
           className={classNames(
             'flex items-center gap-1 w-full flex-nowrap',
             !children && 'ml-1.5'
@@ -127,7 +128,7 @@ const TreeItem = (props: CustomTreeItemProps) => {
               className={classNames(!isSelected && 'group-hover:fill-blue-100 transition-colors')}
             />
           )}{' '}
-          {name}
+          <span className="truncate max-w-[150px]">{name}</span>
         </Link>
       </div>
       {isExpanded && (
