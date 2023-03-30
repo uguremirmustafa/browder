@@ -1,10 +1,11 @@
-import { ExoticComponent, LazyExoticComponent, ReactNode } from 'react';
+import { ReactNode } from 'react';
 
-export interface IMenuItem {
+export type IMenuItem = {
   id: number;
   name: string;
-  parentId: IMenuItem['id'];
-}
+  parentId: number | null;
+  isFolder: boolean;
+};
 
 export interface NestedMenuItem extends IMenuItem {
   parentPath: string;
@@ -13,12 +14,16 @@ export interface NestedMenuItem extends IMenuItem {
 }
 
 export interface TreeNode {
-  id: IMenuItem['id'];
-  name: IMenuItem['name'];
+  id: number;
+  name: string;
+  isFolder: boolean;
   path: string;
-  pathPart: string;
-  parentPath: NestedMenuItem['parentPath'];
   children: TreeNode[];
+}
+
+export interface BreadcrumbLink {
+  name: string;
+  url: string;
 }
 
 export const MODAL_IDS = ['FOLDER_PROPERTIES', 'RENAME'] as const;

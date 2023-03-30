@@ -4,6 +4,7 @@ import { menuItemTable } from 'lib/db';
 import React, { ReactNode, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TreeNode } from 'types';
+import { getNodeLink } from 'utils/helper-functions/getNodeLink';
 import { getPathFromName } from 'utils/helper-functions/getPathFromName';
 
 interface IProps {
@@ -12,7 +13,7 @@ interface IProps {
 
 function RenameModal(props: IProps) {
   const { item } = props;
-  const isFolder = item.children.length;
+  const isFolder = item.isFolder;
   const { close } = useModal();
   const navigate = useNavigate();
   const [value, setValue] = useState(() => item.name);
@@ -23,7 +24,7 @@ function RenameModal(props: IProps) {
       .update(item.id, { name: value })
       .then(() => {
         if (isFolder) {
-          navigate(`${item.parentPath}/${getPathFromName(value)}`, { state: item });
+          navigate(getNodeLink(item));
         }
         close();
       })

@@ -4,6 +4,7 @@ import { useModal } from 'context/modal-context';
 import { useRightClick } from 'context/right-click-context';
 import { useNavigate } from 'react-router-dom';
 import { TreeNode } from 'types';
+import { getNodeLink } from 'utils/helper-functions/getNodeLink';
 
 interface IProps {
   item: TreeNode;
@@ -17,7 +18,7 @@ function TreeItemMenu(props: IProps) {
   const navigate = useNavigate();
 
   function openFolder() {
-    navigate(item.path, { state: item });
+    navigate(getNodeLink(item));
     close();
   }
 

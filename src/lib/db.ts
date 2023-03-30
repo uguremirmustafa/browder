@@ -1,6 +1,5 @@
 import { Dexie } from 'dexie';
 import { IMenuItem } from 'types';
-import { getPathFromName } from 'utils/helper-functions/getPathFromName';
 import menu from '../menu.json';
 
 class MyAppDatabase extends Dexie {
@@ -9,9 +8,9 @@ class MyAppDatabase extends Dexie {
   menuItem!: Dexie.Table<IMenuItem, number>; // number = type of the primkey
 
   constructor() {
-    super('MyAppDatabase');
+    super('test');
     this.version(2).stores({
-      menuItem: '++id,name,parentId,&[parentId+name]',
+      menuItem: '++id, name, parentId, isFolder, &[id+name]',
 
       //...other tables goes here...
     });

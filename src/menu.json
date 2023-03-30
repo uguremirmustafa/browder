@@ -1,52 +1,62 @@
 [
   {
     "id": 1,
-    "name": "Root",
-    "parentId": 0
+    "name": "Folder 1",
+    "parentId": null,
+    "isFolder": true
   },
   {
     "id": 2,
-    "name": "Documents",
-    "parentId": 1
+    "name": "Folder 2",
+    "parentId": null,
+    "isFolder": true
   },
   {
     "id": 3,
-    "name": "Notes",
-    "parentId": 1
+    "name": "Folder 3",
+    "parentId": null,
+    "isFolder": true
   },
   {
     "id": 4,
-    "name": "Test.txt",
-    "parentId": 3
-  },
-  {
-    "id": 8,
-    "name": "Great.txt",
-    "parentId": 3
+    "name": "File 1",
+    "parentId": 1,
+    "isFolder": false
   },
   {
     "id": 5,
-    "name": "Test2.txt",
-    "parentId": 3
+    "name": "File 2",
+    "parentId": 1,
+    "isFolder": false
   },
   {
     "id": 6,
-    "name": "Development",
-    "parentId": 2
+    "name": "File 3",
+    "parentId": 2,
+    "isFolder": false
   },
   {
     "id": 7,
-    "name": "Awesome_code.js",
-    "parentId": 6
+    "name": "Folder 4",
+    "parentId": 2,
+    "isFolder": true
+  },
+  {
+    "id": 8,
+    "name": "File 4",
+    "parentId": 7,
+    "isFolder": false
   },
   {
     "id": 9,
-    "name": "some",
-    "parentId": 6
+    "name": "Folder 5",
+    "parentId": null,
+    "isFolder": true
   },
   {
     "id": 10,
-    "name": "uguremirmustafaoglu.css",
-    "parentId": 9
+    "name": "File 5",
+    "parentId": 9,
+    "isFolder": false
   }
 ]

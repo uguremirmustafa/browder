@@ -25,6 +25,13 @@ const SvgIcon = (props: IProps) => {
   );
 };
 
+export const FCFileIcon = (props: Icon) => (
+  <SvgIcon {...props}>
+    <polygon fill="#90CAF9" points="40,45 8,45 8,3 30,3 40,13"></polygon>
+    <polygon fill="#E1F5FE" points="38.5,14 29,14 29,4.5"></polygon>
+  </SvgIcon>
+);
+
 export const FCOpenFolderIcon = (props: Icon) => (
   <SvgIcon {...props}>
     <path

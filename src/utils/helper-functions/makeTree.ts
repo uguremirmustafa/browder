@@ -1,28 +1,6 @@
 import { IMenuItem, NestedMenuItem, TreeNode } from 'types';
 import { getPathFromName } from './getPathFromName';
 
-export function createSidebarMenuTree(
-  nodes: any[],
-  parentId: number = 0,
-  parentPath: string = ''
-): TreeNode[] {
-  return nodes
-    .filter((node) => node.parentId === parentId)
-    .map((node) => {
-      const pathPart = getPathFromName(node.name);
-      const path = `${parentPath}/${pathPart}`.replace(/\/+/g, '/');
-      const children = createSidebarMenuTree(nodes, node.id, path);
-      return {
-        id: node.id,
-        name: node.name,
-        path,
-        parentPath,
-        pathPart,
-        children: children,
-      };
-    });
-}
-
 export function buildMenuItems(
   items: IMenuItem[],
   parentId = 0,
@@ -45,3 +23,36 @@ export function buildMenuItems(
 
   return result;
 }
+
+export function findNode(data: TreeNode[], id: number): TreeNode | null {
+  for (const node of data) {
+    if (node.id === id) {
+      return node;
+    }
+    if (node.children) {
+      const result = findNode(node.children, id);
+      if (result) {
+        return result;
+      }
+    }
+  }
+  return null;
+}
+
+export const getAncestors = (
+  nodeId: number,
+  treeNodes: TreeNode[],
+  ancestors: TreeNode[] = []
+): TreeNode[] | null => {
+  for (let i = 0; i < treeNodes.length; i++) {
+    const node = treeNodes[i];
+    if (node.id === nodeId) {
+      return [...ancestors, node];
+    }
+    const matchingNode = getAncestors(nodeId, node.children, [...ancestors, node]);
+    if (matchingNode) {
+      return matchingNode;
+    }
+  }
+  return null;
+};

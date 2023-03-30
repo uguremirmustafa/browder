@@ -2,32 +2,27 @@ import { ChevronRightIcon, ClosedFolderIcon, FileIcon, OpenFolderIcon } from 'as
 import classNames from 'classnames';
 import { useRightClick } from 'context/right-click-context';
 import React, { ReactNode } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { TreeNode } from 'types';
 import TreeItemMenu from '../context-menu/context-menus/TreeItemMenu';
 import { TreeContext, useTree } from './context';
 
-export interface DrilledProps {
-  setSelectedNode: React.Dispatch<React.SetStateAction<TreeNode | undefined>>;
-  selectedNode: TreeNode | undefined;
-}
-
-interface TreeViewProps extends DrilledProps {
+interface TreeViewProps {
   children: ReactNode;
 }
 
 function TreeView(props: TreeViewProps) {
-  const { children, ...rest } = props;
-  return <TreeContext {...rest}>{children}</TreeContext>;
+  const { children } = props;
+  return <TreeContext>{children}</TreeContext>;
 }
 
-interface IProps extends DrilledProps {
+interface IProps {
   tree: TreeNode[];
 }
 
 function Tree(props: IProps) {
-  const { tree, ...rest } = props;
-  return <TreeView {...rest}>{renderTreeData(tree)}</TreeView>;
+  const { tree } = props;
+  return <TreeView>{renderTreeData(tree)}</TreeView>;
 }
 export default Tree;
 
@@ -35,7 +30,7 @@ export const renderTreeData = (data: TreeNode[]) => {
   return data.map((item) => {
     return (
       <React.Fragment key={item.id}>
-        {item.children?.length ? (
+        {item.isFolder ? (
           <TreeItem node={item}>{renderTreeData(item.children)}</TreeItem>
         ) : (
           <TreeItem node={item} />
@@ -52,8 +47,8 @@ interface CustomTreeItemProps {
 
 const TreeItem = (props: CustomTreeItemProps) => {
   const { node, children } = props;
-  const { pathname } = useLocation();
-  const { name, id, path, parentPath } = node;
+  const { directoryId, fileId } = useParams();
+  const { name, id, isFolder } = node;
   const { expandedList, handleCollapse, handleExpand } = useTree();
 
   const isExpanded = expandedList.includes(id);
@@ -66,7 +61,7 @@ const TreeItem = (props: CustomTreeItemProps) => {
     }
   }
 
-  const isSelected = pathname === path;
+  const isSelected = isFolder ? id === Number(directoryId) : id === Number(fileId);
 
   const { setCtxMenu } = useRightClick();
 
@@ -91,7 +86,7 @@ const TreeItem = (props: CustomTreeItemProps) => {
         )}
         onContextMenu={handleRightClick}
       >
-        {children && (
+        {isFolder && (
           <button onClick={toggle} tabIndex={-1} className="pl-1">
             <ChevronRightIcon
               size={18}
@@ -103,14 +98,14 @@ const TreeItem = (props: CustomTreeItemProps) => {
           </button>
         )}
         <Link
-          to={children ? path : parentPath}
-          state={node}
+          to={node.isFolder ? `/directory/${node.id}` : `/file/${node.id}`}
+          state={node.path}
           className={classNames(
             'flex items-center gap-1 w-full flex-nowrap',
             !children && 'ml-1.5'
           )}
         >
-          {children &&
+          {isFolder &&
             (isExpanded ? (
               <OpenFolderIcon
                 size={15}
@@ -122,7 +117,7 @@ const TreeItem = (props: CustomTreeItemProps) => {
                 className={classNames(!isSelected && 'group-hover:fill-blue-100 transition-colors')}
               />
             ))}
-          {!children && (
+          {!isFolder && (
             <FileIcon
               size={15}
               className={classNames(!isSelected && 'group-hover:fill-blue-100 transition-colors')}

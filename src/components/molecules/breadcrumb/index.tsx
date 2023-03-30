@@ -1,34 +1,33 @@
-import { Link, useLocation } from 'react-router-dom';
-import { NestedMenuItem } from 'types';
+import { Link } from 'react-router-dom';
 
 interface IProps {
-  menuItems: NestedMenuItem[];
+  items: {
+    name: string;
+    id: number;
+    isFolder: boolean;
+  }[];
 }
-
 function Breadcrumb(props: IProps) {
-  const { menuItems } = props;
-  const { pathname } = useLocation();
-  const parts = ['/', ...pathname.split('/').filter((x) => x !== '')];
+  const { items } = props;
 
   return (
-    <div className="flex items-center h-12 px-4">
-      <ul className="flex gap-2">
-        {parts.map((part, i) => {
-          const item = menuItems.find((x) => x.pathPart === part);
-          if (!item) return;
-          const url = item?.path;
-          const isLastItem = parts.length - 1 === i;
+    <nav className="flex items-center h-12 px-4">
+      <ol className="flex gap-2">
+        {items.map((item, index) => {
           return (
-            <li key={i} className="flex gap-2 items-center">
-              <Link to={url} className="hover:underline">
+            <li key={index} className="flex gap-2 items-center">
+              <Link
+                className="hover:bg-orange-500 px-1 rounded"
+                to={`/${item.isFolder ? 'directory' : 'file'}/${item.id}`}
+              >
                 {item.name}
               </Link>
-              {!isLastItem && '/'}
+              {index === items.length - 1 ? '' : <span>/</span>}
             </li>
           );
         })}
-      </ul>
-    </div>
+      </ol>
+    </nav>
   );
 }
 

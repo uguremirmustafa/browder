@@ -1,8 +1,7 @@
 import { createContext, useContext, useState, useMemo, ReactNode } from 'react';
 import { TreeNode } from 'types';
-import { DrilledProps } from '.';
 
-interface InitialValues extends DrilledProps {
+interface InitialValues {
   expandedList: number[];
   setExpandedList: React.Dispatch<React.SetStateAction<number[]>>;
   handleExpand: (id: number) => void;
@@ -14,19 +13,17 @@ const initialValues: InitialValues = {
   setExpandedList: () => {},
   handleExpand: () => {},
   handleCollapse: () => {},
-  selectedNode: undefined,
-  setSelectedNode: () => {},
 };
 
 const Context = createContext<InitialValues>(initialValues);
 
-interface IProps extends DrilledProps {
+interface IProps {
   children: ReactNode;
 }
 
 export const TreeContext = (props: IProps) => {
-  const { children, selectedNode, setSelectedNode } = props;
-  const [expandedList, setExpandedList] = useState<TreeNode['id'][]>([1, 3]);
+  const { children } = props;
+  const [expandedList, setExpandedList] = useState<TreeNode['id'][]>([2, 7]);
 
   function handleExpand(id: number) {
     setExpandedList((old) => {
@@ -45,10 +42,8 @@ export const TreeContext = (props: IProps) => {
       setExpandedList,
       handleExpand,
       handleCollapse,
-      selectedNode,
-      setSelectedNode,
     }),
-    [expandedList, setExpandedList, handleExpand, handleCollapse, selectedNode, setSelectedNode]
+    [expandedList, setExpandedList, handleExpand, handleCollapse]
   );
 
   return <Context.Provider value={contextValue}>{children}</Context.Provider>;
