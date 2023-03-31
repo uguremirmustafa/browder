@@ -26,7 +26,7 @@ export interface BreadcrumbLink {
   url: string;
 }
 
-export const MODAL_IDS = ['FOLDER_PROPERTIES', 'RENAME'] as const;
+export const MODAL_IDS = ['FOLDER_PROPERTIES', 'RENAME', 'NEW_FILE', 'NEW_FOLDER'] as const;
 export type ModalId = typeof MODAL_IDS[number];
 
 export interface ModalProps {

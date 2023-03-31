@@ -9,7 +9,7 @@ interface IProps {
 
 function NodeItem(props: IProps) {
   const { item } = props;
-  const isFolder = item.children.length > 0;
+  const isFolder = item.isFolder;
 
   const { setCtxMenu } = useRightClick();
 
