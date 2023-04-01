@@ -1,28 +1,4 @@
-import { IMenuItem, NestedMenuItem, TreeNode } from 'types';
-import { getPathFromName } from './getPathFromName';
-
-export function buildMenuItems(
-  items: IMenuItem[],
-  parentId = 0,
-  parentPath = ''
-): NestedMenuItem[] {
-  const result: NestedMenuItem[] = [];
-
-  for (const item of items.filter((i) => i.parentId === parentId)) {
-    const pathPart = getPathFromName(item.name);
-    const path = `${parentPath}/${pathPart}`.replace(/\/+/g, '/');
-    const menuItem: NestedMenuItem = {
-      ...item,
-      path,
-      parentPath,
-      pathPart,
-    };
-    result.push(menuItem);
-    result.push(...buildMenuItems(items, item.id, menuItem.path));
-  }
-
-  return result;
-}
+import { TreeNode } from 'types';
 
 export function findNode(data: TreeNode[], id: number): TreeNode | null {
   for (const node of data) {

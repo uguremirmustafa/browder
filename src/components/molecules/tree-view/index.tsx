@@ -1,11 +1,18 @@
-import { ChevronRightIcon, ClosedFolderIcon, FileIcon, OpenFolderIcon } from 'assets/icons';
+import {
+  AddFileIcon,
+  ChevronRightIcon,
+  ClosedFolderIcon,
+  FileIcon,
+  OpenFolderIcon,
+} from 'assets/icons';
 import classNames from 'classnames';
 import { useRightClick } from 'context/right-click-context';
 import React, { ReactNode } from 'react';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { TreeNode } from 'types';
 import TreeItemMenu from '../context-menu/context-menus/TreeItemMenu';
 import { TreeContext, useTree } from './context';
+import TreeHeader from './TreeHeader';
 
 interface TreeViewProps {
   children: ReactNode;
@@ -22,7 +29,12 @@ interface IProps {
 
 function Tree(props: IProps) {
   const { tree } = props;
-  return <TreeView>{renderTreeData(tree)}</TreeView>;
+  return (
+    <TreeView>
+      <TreeHeader />
+      <div className="p-2">{renderTreeData(tree)}</div>
+    </TreeView>
+  );
 }
 export default Tree;
 
@@ -49,12 +61,13 @@ const TreeItem = (props: CustomTreeItemProps) => {
   const { node, children } = props;
   const { directoryId, fileId } = useParams();
   const { name, id, isFolder } = node;
+  const hasChild = node.children.length > 0;
   const { expandedList, handleCollapse, handleExpand } = useTree();
 
   const isExpanded = expandedList.includes(id);
 
   function toggle() {
-    if (!isExpanded) {
+    if (!isExpanded && hasChild) {
       handleExpand(id);
     } else {
       handleCollapse(id);
@@ -67,6 +80,7 @@ const TreeItem = (props: CustomTreeItemProps) => {
 
   function handleRightClick(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
     e.preventDefault();
+    e.stopPropagation();
     const { pageX, pageY } = e;
     setCtxMenu({
       x: pageX,
@@ -76,23 +90,31 @@ const TreeItem = (props: CustomTreeItemProps) => {
     });
   }
 
+  function handleDoubleClick() {
+    if (!isExpanded && hasChild) {
+      handleExpand(id);
+    }
+  }
+
   return (
     <li className={classNames('transition-all')}>
       <div
         className={classNames(
           'gap-1 rounded flex items-center h-6 group',
           isSelected && 'bg-orange-500',
-          !isSelected && 'hover:text-blue-100 transition-colors'
+          !isSelected && 'hover:text-blue-100 transition-colors',
+          isFolder ? 'ml-0' : 'ml-5'
         )}
         onContextMenu={handleRightClick}
       >
         {isFolder && (
-          <button onClick={toggle} tabIndex={-1} className="pl-1">
+          <button onClick={toggle} className="pl-1">
             <ChevronRightIcon
               size={18}
               className={classNames(
-                '!fill-gray-400 hover:!fill-gray-100 transition duration-200',
-                isExpanded && 'rotate-90'
+                hasChild && '!fill-gray-400 hover:!fill-gray-100 transition duration-200',
+                isExpanded && 'rotate-90',
+                !hasChild && '!fill-gray-600'
               )}
             />
           </button>
@@ -100,6 +122,7 @@ const TreeItem = (props: CustomTreeItemProps) => {
         <Link
           to={node.isFolder ? `/directory/${node.id}` : `/file/${node.id}`}
           state={node.path}
+          onDoubleClick={handleDoubleClick}
           className={classNames(
             'flex items-center gap-1 w-full flex-nowrap',
             !children && 'ml-1.5'
@@ -108,22 +131,22 @@ const TreeItem = (props: CustomTreeItemProps) => {
           {isFolder &&
             (isExpanded ? (
               <OpenFolderIcon
-                size={15}
+                size={18}
                 className={classNames(!isSelected && 'group-hover:fill-blue-100 transition-colors')}
               />
             ) : (
               <ClosedFolderIcon
-                size={15}
+                size={18}
                 className={classNames(!isSelected && 'group-hover:fill-blue-100 transition-colors')}
               />
             ))}
           {!isFolder && (
             <FileIcon
-              size={15}
+              size={18}
               className={classNames(!isSelected && 'group-hover:fill-blue-100 transition-colors')}
             />
           )}{' '}
-          <span className="truncate max-w-[150px]">{name}</span>
+          <span className="truncate max-w-[180px]">{name}</span>
         </Link>
       </div>
       {isExpanded && (

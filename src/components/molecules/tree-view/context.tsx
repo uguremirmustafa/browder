@@ -6,6 +6,7 @@ interface InitialValues {
   setExpandedList: React.Dispatch<React.SetStateAction<number[]>>;
   handleExpand: (id: number) => void;
   handleCollapse: (id: number) => void;
+  collapseAll: () => void;
 }
 
 const initialValues: InitialValues = {
@@ -13,6 +14,7 @@ const initialValues: InitialValues = {
   setExpandedList: () => {},
   handleExpand: () => {},
   handleCollapse: () => {},
+  collapseAll: () => {},
 };
 
 const Context = createContext<InitialValues>(initialValues);
@@ -36,14 +38,19 @@ export const TreeContext = (props: IProps) => {
     });
   }
 
+  function collapseAll() {
+    setExpandedList([]);
+  }
+
   const contextValue = useMemo(
     () => ({
       expandedList,
       setExpandedList,
       handleExpand,
       handleCollapse,
+      collapseAll,
     }),
-    [expandedList, setExpandedList, handleExpand, handleCollapse]
+    [expandedList, setExpandedList, handleExpand, handleCollapse, collapseAll]
   );
 
   return <Context.Provider value={contextValue}>{children}</Context.Provider>;

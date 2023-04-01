@@ -15,7 +15,7 @@ function ContextMenu() {
   }
 
   return (
-    <div ref={ref} className="absolute bg-blue-900 rounded" style={{ top: y, left: x }}>
+    <div ref={ref} className="absolute bg-blue-900 rounded z-50" style={{ top: y, left: x }}>
       {children}
     </div>
   );

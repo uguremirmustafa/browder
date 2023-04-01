@@ -5,7 +5,7 @@ import React, { ReactNode, useState } from 'react';
 import { IMenuItem, TreeNode } from 'types';
 
 interface IProps {
-  currentFolder: TreeNode;
+  currentFolder?: TreeNode;
 }
 
 function NewModal(props: IProps) {
@@ -20,21 +20,25 @@ function NewModal(props: IProps) {
   }
 
   const save = () => {
-    const isFolder = modal.id === 'NEW_FOLDER';
-    const newMenuItem: Omit<IMenuItem, 'id'> = {
-      parentId: currentFolder.id,
-      isFolder,
-      name: value,
-    };
-    menuItemTable
-      .add(newMenuItem as IMenuItem)
-      .then(() => {
-        // TODO: focus onto the new item
-        close();
-      })
-      .catch((_reason) => {
-        setError(`${isFolder ? 'Folder' : 'File'} already exists!`);
-      });
+    if (value) {
+      const isFolder = modal.id === 'NEW_FOLDER';
+      const newMenuItem: Omit<IMenuItem, 'id'> = {
+        parentId: currentFolder ? currentFolder.id : null,
+        isFolder,
+        name: value,
+      };
+      menuItemTable
+        .add(newMenuItem as IMenuItem)
+        .then(() => {
+          // TODO: focus onto the new item
+          close();
+        })
+        .catch((_reason) => {
+          setError(`${isFolder ? 'Folder' : 'File'} already exists!`);
+        });
+    } else {
+      setError('Not a valid name!');
+    }
   };
 
   return (

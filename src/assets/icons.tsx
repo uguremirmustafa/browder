@@ -44,6 +44,43 @@ export const FCOpenFolderIcon = (props: Icon) => (
     />
   </SvgIcon>
 );
+export const InfoIcon = (props: Icon) => (
+  <SvgIcon {...props}>
+    <path fill="none" d="M0 0h24v24H0z" />
+    <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM11 7h2v2h-2V7zm0 4h2v6h-2v-6z" />
+  </SvgIcon>
+);
+export const WarningIcon = (props: Icon) => (
+  <SvgIcon {...props}>
+    <path fill="none" d="M0 0h24v24H0z" />
+    <path d="M12.866 3l9.526 16.5a1 1 0 0 1-.866 1.5H2.474a1 1 0 0 1-.866-1.5L11.134 3a1 1 0 0 1 1.732 0zm-8.66 16h15.588L12 5.5 4.206 19zM11 16h2v2h-2v-2zm0-7h2v5h-2V9z" />
+  </SvgIcon>
+);
+export const ErrorIcon = (props: Icon) => (
+  <SvgIcon {...props}>
+    <path fill="none" d="M0 0h24v24H0z" />
+    <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-1-5h2v2h-2v-2zm0-8h2v6h-2V7z" />
+  </SvgIcon>
+);
+
+export const AddFolderIcon = (props: Icon) => (
+  <SvgIcon {...props}>
+    <path fill="none" d="M0 0h24v24H0z" />
+    <path d="M12.414 5H21a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h7.414l2 2zM4 5v14h16V7h-8.414l-2-2H4zm7 7V9h2v3h3v2h-3v3h-2v-3H8v-2h3z" />
+  </SvgIcon>
+);
+export const CollapseAllIcon = (props: Icon) => (
+  <SvgIcon {...props}>
+    <path d="M14,4H4V14H2V4A2,2 0 0,1 4,2H14V4M18,6H8A2,2 0 0,0 6,8V18H8V8H18V6M22,12V20A2,2 0 0,1 20,22H12A2,2 0 0,1 10,20V12A2,2 0 0,1 12,10H20A2,2 0 0,1 22,12M20,15H12V17H20V15Z" />
+  </SvgIcon>
+);
+
+export const AddFileIcon = (props: Icon) => (
+  <SvgIcon {...props}>
+    <path fill="none" d="M0 0h24v24H0z" />
+    <path d="M15 4H5v16h14V8h-4V4zM3 2.992C3 2.444 3.447 2 3.999 2H16l5 5v13.993A1 1 0 0 1 20.007 22H3.993A1 1 0 0 1 3 21.008V2.992zM11 11V8h2v3h3v2h-3v3h-2v-3H8v-2h3z" />
+  </SvgIcon>
+);
 
 export const OpenFolderIcon = (props: Icon) => (
   <SvgIcon {...props}>

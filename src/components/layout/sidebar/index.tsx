@@ -1,5 +1,4 @@
 import Tree from 'components/molecules/tree-view';
-import { useState } from 'react';
 import { TreeNode } from 'types';
 
 interface IProps {
@@ -9,9 +8,8 @@ interface IProps {
 function Sidebar(props: IProps) {
   const { tree } = props;
 
-  // console.log(tree);
   return (
-    <div className="p-2 h-full overflow-x-scroll">
+    <div className="h-full overflow-x-scroll">
       <Tree tree={tree} />
     </div>
   );

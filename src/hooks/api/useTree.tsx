@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { TableSchema } from 'dexie';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { menuItemTable } from 'lib/db';
 import { IMenuItem, TreeNode } from 'types';
@@ -26,6 +25,7 @@ function useTree() {
     const roots: TreeNode[] = [];
     items.forEach((item) => {
       if (!item.parentId) {
+        console.log('here', itemMap[item.id]);
         roots.push(itemMap[item.id]);
       } else {
         const parent = itemMap[item.parentId];
@@ -34,7 +34,7 @@ function useTree() {
       }
     });
 
-    setTree(roots);
+    setTree(roots.map((x) => ({ ...x, children: x.children.sort((a) => (a.isFolder ? -1 : 1)) })));
   };
 
   useEffect(() => {

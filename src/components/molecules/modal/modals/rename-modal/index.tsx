@@ -1,11 +1,8 @@
 import SaveButton from 'components/atoms/save-button';
 import { useModal } from 'context/modal-context';
 import { menuItemTable } from 'lib/db';
-import React, { ReactNode, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import { TreeNode } from 'types';
-import { getNodeLink } from 'utils/helper-functions/getNodeLink';
-import { getPathFromName } from 'utils/helper-functions/getPathFromName';
 
 interface IProps {
   item: TreeNode;
@@ -15,7 +12,6 @@ function RenameModal(props: IProps) {
   const { item } = props;
   const isFolder = item.isFolder;
   const { close } = useModal();
-  const navigate = useNavigate();
   const [value, setValue] = useState(() => item.name);
   const [error, setError] = useState('');
 
@@ -23,9 +19,6 @@ function RenameModal(props: IProps) {
     menuItemTable
       .update(item.id, { name: value })
       .then(() => {
-        if (isFolder) {
-          navigate(getNodeLink(item));
-        }
         close();
       })
       .catch((_reason) => {

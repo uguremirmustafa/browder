@@ -43,7 +43,7 @@ function MainContentMenu(props: IProps) {
 
   return (
     <ul className="p-2">
-      <li role="menuitem" tabIndex={0}>
+      <li>
         <a
           className="cursor-default inline-block w-full px-2 py-1 transition-colors hover:bg-blue-700 rounded"
           onClick={createNewFile}

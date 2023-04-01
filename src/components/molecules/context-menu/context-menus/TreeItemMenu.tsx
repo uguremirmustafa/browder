@@ -1,4 +1,5 @@
 import FolderPropertiesModal from 'components/molecules/modal/modals/folder-properties-modal';
+import NewModal from 'components/molecules/modal/modals/new-modal';
 import RenameModal from 'components/molecules/modal/modals/rename-modal';
 import { useModal } from 'context/modal-context';
 import { useRightClick } from 'context/right-click-context';
@@ -39,6 +40,22 @@ function TreeItemMenu(props: IProps) {
     close();
   }
 
+  function createNewFile() {
+    setModal({
+      id: 'NEW_FILE',
+      title: 'Create New File',
+      content: <NewModal currentFolder={item} />,
+    });
+    close();
+  }
+  function createNewFolder() {
+    setModal({
+      id: 'NEW_FOLDER',
+      title: 'Create New Folder',
+      content: <NewModal currentFolder={item} />,
+    });
+    close();
+  }
   return (
     <ul className="px-2 py-2">
       {isFolder ? (
@@ -51,6 +68,22 @@ function TreeItemMenu(props: IProps) {
           </a>
         </li>
       ) : null}
+      <li>
+        <a
+          className="cursor-default inline-block w-full px-2 py-1 transition-colors hover:bg-blue-700 rounded"
+          onClick={createNewFile}
+        >
+          New File
+        </a>
+      </li>
+      <li>
+        <a
+          className="cursor-default inline-block w-full px-2 py-1 transition-colors hover:bg-blue-700 rounded"
+          onClick={createNewFolder}
+        >
+          New Folder
+        </a>
+      </li>
       <li>
         <a
           className="cursor-default inline-block w-full px-2 py-1 transition-colors hover:bg-blue-700 rounded"
